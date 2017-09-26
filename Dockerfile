@@ -33,6 +33,8 @@ RUN set -ex \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
     && gpg --batch --verify python.tar.xz.asc python.tar.xz \
+    && pkill -9 gpg-agent \
+    && pkill -9 dirmngr \
     && rm -fr "$GNUPGHOME" python.tar.xz.asc \
     && tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
     && rm python.tar.xz
